@@ -1,0 +1,181 @@
+<html>
+ <head>
+	   <script src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
+	   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	   <title> Demo 1</title>
+	   <style type="text/css">
+	   div {display:inline;}
+	   .wide {width:50%;}
+	   </style>
+   </head>
+   <body>
+
+ <div>
+	 <!-- <button onclick="show('Emily')">Emily</button>
+	  <button onclick="show('Sarah')">Sarah</button>
+	  <button onclick="show('Joanna')">Joanna</button>
+	  <button onclick="show('Wendy')">Wendy</button>
+	  <button onclick="show('Master')">all</button>
+   -->
+      <div id="footnote"></div>
+      <video  width="100%" height="25" id="allfive" controls autoplay>
+        <source src="Piece 3 Take 5 All Cameras.mp4">
+      </video>
+   <br/>
+  
+
+	   
+	  
+      	 <video  width ="200" muted="true" class="view" onclick="show('Emily')" id="Emily">
+         	<source src="Piece 3 Take 5 Emily.mp4">
+       	 </video>
+    
+	   
+	
+       <video  width="200" muted="true" class="view" onclick="show('Joanna')" id="Joanna">
+         <source src="Piece 3 Take 5 Joanna.mp4">
+       </video>
+     
+	   
+	   
+       <video  width="200" muted="true" class="view" onclick="show('Sarah')" id="Sarah">
+         <source src="Piece 3 Take 5 Sarah.mp4">
+       </video>
+       
+	   
+	  
+       <video  width="200" muted="true" class="view" onclick="show('Wendy')" id="Wendy">
+         <source src="Piece 3 Take 5 Wendy.mp4">
+       </video>
+    
+	   
+	
+       <video  width="200" muted="true" class="view" onclick="show('Master')" id="Master">
+         <source src="Piece 3 Take 5 Master.mp4">
+       </video>
+   </div>
+	   <br/>
+
+	   
+   </body>
+   <script>
+   function show(id){
+	   $(".view").attr("width","20%");
+	   $("#"+id).attr("width","75%");
+	   e.attr("width")
+   }
+   
+   var videos = {
+       a: Popcorn("#allfive"),    
+       b: Popcorn("#Sarah"), 
+	   c: Popcorn("#Joanna"), 
+	   d: Popcorn("#Emily"), 
+	   e: Popcorn("#Wendy"), 
+	   f: Popcorn("#Master"), 
+	   
+   },
+   scrub = $("#scrub"),
+   loadCount = 0, 
+   events = "play pause timeupdate seeking".split(/\s+/g);
+
+   // iterate both media sources
+   Popcorn.forEach( videos, function( media, type ) {
+    
+       // when each is ready... 
+       media.on( "canplayall", function() {
+        
+           // trigger a custom "sync" event
+           this.emit("sync");
+        
+           // set the max value of the "scrubber"
+           scrub.attr("max", this.duration() );
+
+       // Listen for the custom sync event...    
+       }).on( "sync", function() {
+        
+           // Once both items are loaded, sync events
+           if ( ++loadCount == 2 ) {
+            
+               // Iterate all events and trigger them on the video B
+               // whenever they occur on the video A
+               events.forEach(function( event ) {
+
+                   videos.a.on( event, function() {
+                    
+                       // Avoid overkill events, trigger timeupdate manually
+                       if ( event === "timeupdate" ) {
+                        
+                           if ( !this.media.paused ) {
+                               return;
+                           } 
+                           videos.b.emit( "timeupdate" );
+						   videos.c.emit( "timeupdate" );
+						   videos.d.emit( "timeupdate" );
+						   videos.e.emit( "timeupdate" );
+						   videos.f.emit( "timeupdate" );
+                        
+                           // update scrubber
+                           scrub.val( this.currentTime() );
+                        
+                           return;
+                       }
+                    
+                       if ( event === "seeking" ) {
+                           videos.b.currentTime( this.currentTime() );
+						   videos.c.currentTime( this.currentTime() );
+						   videos.d.currentTime( this.currentTime() );
+						   videos.e.currentTime( this.currentTime() );
+						   videos.f.currentTime( this.currentTime() );
+                       }
+                    
+                       if ( event === "play" || event === "pause" ) {
+                           videos.b[ event ]();
+						   videos.c[ event ]();
+						   videos.d[ event ]();
+						   videos.e[ event ]();
+						   videos.f[ event ]();
+                       }
+                   });
+               });
+           }
+       });
+   });
+
+
+   scrub.bind("change", function() {
+       var val = this.value;
+       videos.a.currentTime( val );
+       videos.b.currentTime( val );
+	   videos.c.currentTime( val );
+	   videos.d.currentTime( val );
+	   videos.e.currentTime( val );
+	   videos.f.currentTime( val );
+   });
+
+   // With requestAnimationFrame, we can ensure that as 
+   // frequently as the browser would allow, 
+   // the video is resync'ed.
+   function sync() {
+	   var t = videos.a.currentTime();
+       if (videos.b.media.readyState === 4 ) {
+           videos.b.currentTime( t);        
+       }
+       if (videos.c.media.readyState === 4 ) {
+           videos.c.currentTime( t);        
+       }
+       if (videos.d.media.readyState === 4 ) {
+           videos.d.currentTime( t);        
+       }
+       if (videos.e.media.readyState === 4 ) {
+           videos.e.currentTime( t);        
+       }
+       if (videos.f.media.readyState === 4 ) {
+           videos.f.currentTime( t);        
+       }
+       requestAnimationFrame( sync );
+   }
+
+   sync();
+   </script>
+   
+</html>
