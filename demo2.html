@@ -1,34 +1,36 @@
 <html>
- <head>
+<head>
 	   <script src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
 	   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 	   <title> Demo 1</title>
 	   <link rel="stylesheet" type="text/css" href= "css/bootstrap.css" />
 	   <link href="exstyle.css" rel="stylesheet" />
-   </head>
-   <body>
-   <div class = "container">
+</head>
+<body>
+  <div class = "container">
    
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-		 <div class="navbar-header">
-           <a class="navbar-brand" href="#">MusicApp</a>
-         </div>
-            <div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">MusicApp</a>
+        </div>
+		
+        <div>
               <ul class="nav navbar-nav">
                <li class="active"><a href="#">Home</a></li>
                <li><a href="#">Page 1</a></li>
                <li><a href="#">Page 2</a></li>
                <li><a href="#">Page 3</a></li>
               </ul>
-            </div>
         </div>
+      </div>
+    </nav>
   
-     <div class = "jumbotron">
+    <div class = "jumbotron">
       <h1>Welcome to our MusicApp!</h1>
       <p> Click the videos below to switch camera angles</p>
 	  <a href="#" class="btn btn-small btn-success">Get Started</a>
-     </div>
+    </div>
    
    
 	 <!-- <button onclick="show('Emily')">Emily</button>
@@ -37,11 +39,10 @@
 	  <button onclick="show('Wendy')">Wendy</button>
 	  <button onclick="show('Master')">all</button>
    -->
-      <div id="footnote"></div>
-      <video  width="100%" height="25" id="allfive" controls autoplay>
-        <source src="Piece 3 Take 5 All Cameras.mp4">
-      </video>
-   <br/>
+    <div class="row">
+		<div class="col-md-3">
+
+         
   
 
 	   
@@ -73,18 +74,33 @@
        <video  width="200" muted="true" class="view" onclick="show('Master')" id="Master">
          <source src="Piece 3 Take 5 Master.mp4">
        </video>
+	   
+      </div>
+	  
+	  <div class="col-md-8">
+	      <video  width="100%" height="25" id="allfive" controls autoplay>
+	               <source src="Piece 3 Take 5 All Cameras.mp4">
+	        </video>
+				 
+	      <br/>
+		  <video width="100%" muted="true" id="mainView" src="Piece 3 Take 5 Sarah.mp4" ></video>
+	  </div>
+	</div>
    
 	   <br/>
+      <div id="footnote"> Footnote </div>
+	 </div>
 
-	   <script src=”js/bootstrap.js”></script>
-       <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
    </body>
-   </div>
+   <script src="js/bootstrap.js"></script>
+   <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
    <script>
    function show(id){
-	   $(".view").attr("width","20%");
-	   $("#"+id).attr("width","75%");
-	   e.attr("width")
+	   //$(".view").attr("width","20%");
+	   //$("#"+id).attr("width","75%");
+	   //e.attr("width")
+	   //$("#mainView").attr("src","Piece 3 Take 5 Emily.mp4");
    }
    
    var videos = {
@@ -94,6 +110,7 @@
 	   d: Popcorn("#Emily"), 
 	   e: Popcorn("#Wendy"), 
 	   f: Popcorn("#Master"), 
+	   g: Popcorn("#mainView")
 	   
    },
    scrub = $("#scrub"),
@@ -135,7 +152,7 @@
 						   videos.d.emit( "timeupdate" );
 						   videos.e.emit( "timeupdate" );
 						   videos.f.emit( "timeupdate" );
-                        
+						   videos.g.emit( "timeupdate" );
                            // update scrubber
                            scrub.val( this.currentTime() );
                         
@@ -148,6 +165,7 @@
 						   videos.d.currentTime( this.currentTime() );
 						   videos.e.currentTime( this.currentTime() );
 						   videos.f.currentTime( this.currentTime() );
+						   videos.g.currentTime( this.currentTime() );
                        }
                     
                        if ( event === "play" || event === "pause" ) {
@@ -156,6 +174,7 @@
 						   videos.d[ event ]();
 						   videos.e[ event ]();
 						   videos.f[ event ]();
+						   videos.g[ event ]();
                        }
                    });
                });
