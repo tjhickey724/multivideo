@@ -1,7 +1,6 @@
 
 
 
-
 function show(id){
     $(".view").attr("width","20%");
     $("#"+id).attr("width","75%");
@@ -23,9 +22,6 @@ function  show3(id1,id2){
 
 }
 
-
-
-
 var videos1 =main.map(function (obj) {
     return Popcorn("#" + obj.id);
 })
@@ -36,19 +32,6 @@ var videos2 =Videos.map(function (obj) {
 
 var videos= videos1.concat(videos2);
 
-
-
-/*var videos = {
- a: Popcorn("#allfive"),
- b: Popcorn("#Sarah"),
- c: Popcorn("#Joanna"),
- d: Popcorn("#Emily"),
- e: Popcorn("#Wendy"),
- f: Popcorn("#Master")
-
- },
-
- */
 scrub = $("#scrub"),
     loadCount = 0,
     events = "play pause timeupdate seeking".split(/\s+/g);
@@ -91,46 +74,20 @@ Popcorn.forEach( videos, function( media, type ) {
 
                         return;
                     }
-                        /*if ( !this.media.paused ) {
-                            return;
-                        }
-                        videos.b.emit( "timeupdate" );
-                        videos.c.emit( "timeupdate" );
-                        videos.d.emit( "timeupdate" );
-                        videos.e.emit( "timeupdate" );
-                        videos.f.emit( "timeupdate" );
-
-                        // update scrubber
-                        scrub.val( this.currentTime() );
-
-                        return;
-                    }
-                    */
+                       
 
                     if ( event === "seeking" ) {
                         for(i=1;i<videos.length;i++){
                             videos[i].currentTime( this.currentTime());
                         }
-                        /*
-                        videos.b.currentTime( this.currentTime() );
-                        videos.c.currentTime( this.currentTime() );
-                        videos.d.currentTime( this.currentTime() );
-                        videos.e.currentTime( this.currentTime() );
-                        videos.f.currentTime( this.currentTime() );
-                        */
+                       
                     }
 
                     if ( event === "play" || event === "pause" ) {
                         for(i=1;i<videos.length;i++){
                             videos[i][ event ] ();
                         }
-                        /*
-                        videos.b[ event ]();
-                        videos.c[ event ]();
-                        videos.d[ event ]();
-                        videos.e[ event ]();
-                        videos.f[ event ]();
-                        */
+                       
 
                     }
                 });
@@ -146,14 +103,7 @@ scrub.bind("change", function() {
         for(i=0;i<videos.length;i++){
         videos[i].currentTime( val);
          }
-    /*
-    videos.a.currentTime( val );
-    videos.b.currentTime( val );
-    videos.c.currentTime( val );
-    videos.d.currentTime( val );
-    videos.e.currentTime( val );
-    videos.f.currentTime( val );
-    */
+   
 });
 
 // With requestAnimationFrame, we can ensure that as
@@ -167,25 +117,7 @@ function sync() {
             videos[i].currentTime( t);
         }
     }
-    /*
-    var t = videos.a.currentTime();
-    if (videos.b.media.readyState === 4 ) {
-        videos.b.currentTime( t);
-    }
-    if (videos.c.media.readyState === 4 ) {
-        videos.c.currentTime( t);
-    }
-    if (videos.d.media.readyState === 4 ) {
-        videos.d.currentTime( t);
-    }
-    if (videos.e.media.readyState === 4 ) {
-        videos.e.currentTime( t);
-    }
-    if (videos.f.media.readyState === 4 ) {
-        videos.f.currentTime( t);
-    }
-    requestAnimationFrame( sync );
-    */
+    
 }
 
 sync();
