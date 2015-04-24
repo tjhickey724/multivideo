@@ -1,36 +1,53 @@
 
 
+    Template.VideoTemplate.rendered = function () {
+		var Videos= [
+			{id: "#allfive", src: "http://people.brandeis.edu/~dfit99/AllFive"},
+			{id: "#Master", src: "http://people.brandeis.edu/~dfit99/Master" },
+			{id: "#Emily", src: "http://people.brandeis.edu/~dfit99/Emily" },
+			{id: "#Joanna", src: "http://people.brandeis.edu/~dfit99/Joanna"},
+			{id: "#Wendy", src: "http://people.brandeis.edu/~dfit99/Wendy"},
+			{id: "#Sarah", src: "http://people.brandeis.edu/~dfit99/Sarah"}
+		];
+	//test
+    
+    show = function (id){
+		$(".view").attr("width","20%");
+		$(id).attr("width","75%");
+		//e.attr("width");
+		$(id).attr("width","75%");
+		//$("#mainView").attr("src","Piece 3 Take 5 Emily.mp4");
+   }
 
-function show(id){
-    $(".view").attr("width","20%");
-    $("#"+id).attr("width","75%");
-    e.attr("width")
-    $("#"+id).attr("width","75%");
-    //$("#mainView").attr("src","Piece 3 Take 5 Emily.mp4");
-}
+	show2 = function (id){
+		$(".view").attr("width","0%");
+		//videos2.map (function(obj) {
+		//obj.pause();
+		// })
+		//id_index_map[id].play();
+		$(id).attr("width","100%");
+    //e.attr("width");
+   }
 
-function show2(id){
-    $(".view").attr("width","0%");
-    $("#"+id).attr("width","100%");
-    e.attr("width")
-}
 
-function  show3(id1,id2){
-    $(".view").attr("width","0%");
-    $("#"+id1).attr("width","45%");
-    $("#"+id2).attr("width","45%");
+	show3 = function  (id1,id2){
+		$(".view").attr("width","0%");
+		$("#"+id1).attr("width","45%");
+		$("#"+id2).attr("width","45%");
+   }
 
-}
+//var id_index_map = {};
 
-var videos1 =main.map(function (obj) {
-    return Popcorn("#" + obj.id);
-})
+	var videos =Videos.map(function (obj) {
+		var pop = Popcorn(obj.id);
+   // id_index_map[obj.id] = pop;
+		return pop ;
+	})
 
-var videos2 =Videos.map(function (obj) {
-    return Popcorn("#" + obj.id);
-})
 
-var videos= videos1.concat(videos2);
+
+//var videos= videos1.concat(videos2);
+
 
 scrub = $("#scrub"),
     loadCount = 0,
@@ -84,6 +101,7 @@ Popcorn.forEach( videos, function( media, type ) {
                     }
 
                     if ( event === "play" || event === "pause" ) {
+                      //if (event == "pause"){
                         for(i=1;i<videos.length;i++){
                             videos[i][ event ] ();
                         }
@@ -109,7 +127,7 @@ scrub.bind("change", function() {
 // With requestAnimationFrame, we can ensure that as
 // frequently as the browser would allow,
 // the video is resync'ed.
-function sync() {
+sync = function () {
 
     var t = videos[0].currentTime();
     for ( i=1; i<videos.length;i++){
@@ -121,3 +139,4 @@ function sync() {
 }
 
 sync();
+}

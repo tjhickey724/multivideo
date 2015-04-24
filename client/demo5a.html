@@ -1,18 +1,15 @@
 
-<html>
+
 <head>
 
     <title> Demo 5</title>
-    <link rel="stylesheet" type="text/css" href= "css/bootstrap.css" />
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://www.jsviews.com/download/jsviews.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <link href="exstyle.css" rel="stylesheet" />
+    <script src="/client/lib/demo5.js"></script>
+    <script src="/client/lib/musicapp.js"></script>
+    <link href="/exstyle.css" rel="stylesheet" />
 
 </head>
 <body>
 <div class = "container">
-
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -35,66 +32,57 @@
         <p> Click the videos below to switch camera angles</p>
         <a href="#" class="btn btn-small btn-success">Get Started</a>
     </div>
+	
     <div class="row">
         <div class="col-md-6">
-            <div id="main">
-
+            <div id="VideoTemplate3">
             </div>
         </div>
+		
         <div class="col-md-5">
-
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group">
-                    <div id="VideoDisplay">
-
+                    <div id="VideoTemplate2">
+                        {{> VideoTemplate2}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
     <div class="row">
-
         <div class="col-md-12">
-
-         <div id="VideoStart">
-
+         <div id="VideoTemplate">
+             {{> VideoTemplate}}
          </div>
-
         </div>
     </div>
+</div>
+<br/>
+</body>
 
-    <script id="VideoTemplate" type="text/x-jsrender">
+    <template name="VideoTemplate">
         <div>
-             <video  width ="30%" muted="true" class="view" onclick=show("{{:id}}") id= {{:id}} >
-         	<source src= "{{:src}}">
-       	 </video>
-        </div>
-    </script>
-
-    <script id="VideoTemplate2" type="text/x-jsrender">
-           <button onclick= show2("{{:id}}")  class="btn btn-default"> {{:id}} </button>
-    </script>
-
-    <script id="VideoTemplate3" type="text/x-jsrender">
-        <video  width="100%" height="1" id= {{:id}} controls autoplay>
-            <source src= "{{:src}}">
+			
+        <video  width="100%" height="1" id= 'allfive' controls autoplay>
+            <source src= 'http://people.brandeis.edu/~dfit99/AllFive'>
         </video>
-    </script>
-	
+			
+			{{#each array}}
+              <video  width ="30%" muted="true" class="view" onclick=show({{id}}) id= {{id}}>
+         	<source src= {{src}}>
+       	     </video>
+		    {{/each}}
+       </div>
+	</template>
+
+    <template name="VideoTemplate2">
+		
+	    {{#each array}}
+           <button onclick= show2({{id}})  class="btn btn-default"> {{id}} </button>
+		{{/each}}
+    </template>
+
     
 
 
-    </div>
-
-    </body>
-<br/>
-<div id="footnote"> Footnote </div>
-
-
-<script src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
-<script src="demo5.js"></script>
-<script src="musicapp.js"></script>
-
-</html>
